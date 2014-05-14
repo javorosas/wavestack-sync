@@ -20,8 +20,8 @@ node-webkit provides a way of writing an app **once** and compile for the three 
 	[x] Write README
 
 ### To-do
-	[ ] Create the *Wavestack folder* in the user's directory.
-	[ ] Show the tray icon.
+	[x] Create the *Wavestack folder* in the user's directory.
+	[x] Show the tray icon.
 	[ ] Log in.
 	[ ] Implementations of syncable tasks (download, upload, rename).
 	[ ] Perform a manual sync on startup (compare the local and remote sync dates).
