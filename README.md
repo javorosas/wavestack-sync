@@ -32,5 +32,5 @@ node-webkit provides a way of writing an app **once** and compile for the three 
 ## Contributing?
 * Read about
 	* [node-webkit](https://github.com/rogerwang/node-webkit).
-	* [The official Wavestack API](docs.wavestack.apiary.io).
+	* [The official Wavestack API](http://docs.wavestack.apiary.io).
 * Any inquiries or insights, please contact me at [javo@wavestack.com](mailto:javo@wavestack.com).
