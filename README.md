@@ -41,6 +41,7 @@ node-webkit provides a way of writing an app **once** and compile for the three 
 4. Change the extension of the zipped file from `.zip` to `.nw`. (Psst! You can do 2 and 3 in one step if the output name of your zipped file has the `nw` extension).
 5. Download the [node-webkit prebuilt binary](https://github.com/rogerwang/node-webkit#downloads) for your OS.
 6. On the command line, run:
+
 	$ cd path_to_the_binary/nw path_to_the_zipped/file.nw
 
 That's it!

@@ -25,8 +25,9 @@ if (typeof loadingView === 'undefined') {
 					var win = gui.Window.get();
 					// If the user closed the loginWindow without authenticating, close the app.
 					if (loadingView.hasClosedLoginWindow) {
-						win = gui.Window.get();
-						win.close(true);
+						// Quit current app
+						win.hide();
+						gui.App.quit();
 					} else {
 						// Open the login page in a new window
 						var loginWindow = gui.Window.open('http://www.wavestack.com/account/applogin', {

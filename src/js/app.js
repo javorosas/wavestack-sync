@@ -47,7 +47,8 @@ function initUI () {
 		new gui.MenuItem({
 			label: 'Exit',
 			click: function () {
-				win.close(true);
+				gui.App.closeAllWindows();
+				gui.App.quit();
 			}
 		})
 	);
