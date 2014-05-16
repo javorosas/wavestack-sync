@@ -1,4 +1,4 @@
-FileHelper = {
+fileHelper = {
 	createWavestackFolder: function () {
 		var fs = require('fs');
 		console.log("Creating Wavestack folder...");
