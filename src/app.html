@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="fonts/Ubuntu/ubuntu.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/wavestack.theme.css">
+	<title>Wavestack sync</title>
+	<style>
+		html, body {
+			font-family: 'Ubuntu';
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<!-- Templates load here -->
+	</div>
+	<script src="lib/jquery-2.1.1.min.js"></script>
+	<script src="lib/bootstrap.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/fileHelper.js"></script>
+	<script>
+		$(document).ready(function () {
+			initUI();
+			FileHelper.createWavestackFolder();
+			loadTemplate('loading');
+		});
+	</script>
+</body>
+</html>

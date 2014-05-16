@@ -1,3 +1,23 @@
+// Add endsWith function to string
+if (typeof String.prototype.endsWith !== 'function') {
+    String.prototype.endsWith = function(suffix) {
+        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+}
+
+function loadTemplate(file) {
+	// Support template name convention
+	if (!file.endsWith('.html')) file += '.html';
+	// Load the file content to the #main container.
+	var $container = $('#main');
+	$container.load(file);
+	// Execute inserted scripts
+	var $scripts = $container.find('script');
+	$scripts.each(function (index, element) {
+		eval(element.innerHTML); //run script inside div
+	});
+}
+
 function initUI () {
 	var gui = require("nw.gui");
 
@@ -32,4 +52,6 @@ function initUI () {
 		})
 	);
 	tray.menu = menu;
+
+	//window.location = "http://www.wavestack.com";
 }

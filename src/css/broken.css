@@ -1,0 +1,16 @@
+.broken-container {
+	margin-top: 50px;
+}
+
+.broken {
+    height: 150px;
+    background-repeat: no-repeat;
+    background-image: url(../img/broken.svg);
+    background-size: contain;
+    background-position: center;
+    margin: 30px auto;
+}
+
+#main {
+	text-align: center;
+}

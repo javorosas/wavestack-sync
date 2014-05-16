@@ -2,7 +2,7 @@ wavestack-sync
 ==============
 
 ## What?
-[Wavestack](https://www.wavestack.com) is a cloud service for professional music creators that allows them to keep track of their work and to collaborate with another musicians around the world.
+[Wavestack](https://www.wavestack.com) is a cloud service for professional music creators that allows them to keep track of their work and to collaborate with other musicians around the world.
 
 This is an app for syncing your project files to Wavestack. It is developed with the use of the [node-webkit](https://github.com/rogerwang/node-webkit) project.
 
@@ -18,10 +18,10 @@ node-webkit provides a way of writing an app **once** and compile for the three 
 
 ### Ready
 	[x] Write README
-
-### To-do
 	[x] Create the *Wavestack folder* in the user's directory.
 	[x] Show the tray icon.
+
+### To-do
 	[ ] Log in.
 	[ ] Implementations of syncable tasks (download, upload, rename).
 	[ ] Perform a manual sync on startup (compare the local and remote sync dates).
