@@ -4,7 +4,7 @@
 	"version": 0.1,
 	"window": {
 		"icon": "img/icon.png",
-		//"toolbar": false,
+		"toolbar": false,
 		"width": 500,
 		"height": 600,
 		"position": "center",

@@ -3,28 +3,32 @@ if (typeof loadingView === 'undefined') {
 	loadingView.hasClosedLoginWindow = false;
 	loadingView.init = function () {
 		$(document).ready(function () {
-			$.ajax({
-				url: 'http://www.wavestack.com/api/login',
-				type: 'GET',
-				error: function () {
+			apiHelper.checkLogin({
+				// There was an error when attempting to connect to the server
+				onError: function () {
 					// Wait 2 seconds before showing the error page, so the user knows it's actually trying to connect.
 					setTimeout( function() {
 						loadTemplate('broken');
 					}, 2000);
-				}
-			}).done(function (data) {
-				if (data.success === true) {
+				},
+				// User is logged in
+				onSuccess: function (data) {
+					loadingView.hasClosedLoginWindow = false;
 					localStorage.username = data.username;
 					localStorage.email = data.email;
 					localStorage.stageName = data.stageName;
 					loadTemplate('welcome');
-				} else {
+				},
+				// User is not logged in
+				onFail: function () {
 					var gui = require('nw.gui');
 					var win = gui.Window.get();
+					// If the user closed the loginWindow without authenticating, close the app.
 					if (loadingView.hasClosedLoginWindow) {
 						win = gui.Window.get();
 						win.close(true);
 					} else {
+						// Open the login page in a new window
 						var loginWindow = gui.Window.open('http://www.wavestack.com/account/applogin', {
 							icon: 'img/icon.png',
 							position: 'center',
@@ -33,7 +37,9 @@ if (typeof loadingView === 'undefined') {
 							height: 600,
 							resizable: true
 						});
+						// Hide this window
 						win.hide();
+						// At window close, load this page again, so it will check again is the user is logged in
 						loginWindow.on('closed', function () {
 							win.show();
 							loadingView.hasClosedLoginWindow = true;
