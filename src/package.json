@@ -1,7 +1,7 @@
 {
 	"name": "wavestack-sync",
 	"main": "app.html",
-	"version": 0.1,
+	"version": "0.0.1",
 	"window": {
 		"icon": "img/icon.png",
 		"toolbar": false,
