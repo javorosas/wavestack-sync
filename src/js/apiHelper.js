@@ -4,7 +4,8 @@ apiHelper.routes = {
 	login: apiHelper.domain + '/api/login',
 	logout: apiHelper.domain + '/logout',
 	file: apiHelper.domain + '/api/file',
-	fileInfo: apiHelper.domain + '/api/fileInfo',
+	info: apiHelper.domain + '/api/info',
+	tree: apiHelper.domain + '/api/tree'
 };
 
 apiHelper.checkLogin = function (callbacks) {
