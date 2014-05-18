@@ -12,7 +12,7 @@ As it's name implies, a *sync app* is an application that makes an integral copy
 
 Most professional audio producers work with [DAW's](http://en.wikipedia.org/wiki/Digital_audio_workstation) that run on computers with desktop environments (mainly Mac/OSX). The most practical and user-friendly way of uploading files to the cloud and keep them up to date, so far, is using a *sync app*.
 
-node-webkit provides a way of writing an app **once** and compile for the three main OS's: Mac OSX, Windows and Linux, which perfectly fits the need for a multiplatform app, reducing development and maintenance time exponentially.
+node-webkit provides a way of writing an app **once** and compile for the three main OS's: Mac OSX, Windows and Linux, which perfectly fits the need for a multi-platform app, reducing development and maintenance time exponentially.
 
 ## Features
 
