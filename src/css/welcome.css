@@ -1,0 +1,15 @@
+#main .ws-folder {
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	border: 1px solid #ddd;
+	margin: 20px 0;
+	height: 310px;
+}
+
+#main button.next {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	width: 100px;
+}
