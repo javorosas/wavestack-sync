@@ -1,0 +1,13 @@
+#main h3 {
+	text-align: center;
+}
+
+#main .log {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 5px 10px;
+	box-shadow: rgba(10,10,10,0.2) 0px 0px 5px inset;
+	height: 485px;
+	overflow-y: scroll;
+	font-size: 13px;
+}

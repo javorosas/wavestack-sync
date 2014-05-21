@@ -1,3 +1,8 @@
+// Make request object global
+request = require('request');
+// Set default to store cookies on further calls
+request = request.defaults({ jar: true });
+
 // Add endsWith function to string
 if (typeof String.prototype.endsWith !== 'function') {
     String.prototype.endsWith = function(suffix) {

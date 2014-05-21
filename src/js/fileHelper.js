@@ -14,25 +14,29 @@ fileHelper.createWavestackFolder = function () {
 	A CloudFile JSON object has the following structure:
 	{
 		RelativePath: "path/to/file.txt",
-		ModifiedDate: "1990-01-01T14:55:58.201Z"
+		ModifiedUtc: "1990-01-01T14:55:58.201Z"
 	}
 */
 fileHelper.getLocalFiles = function(callback) {
+	var self = this;
 	var recursive = require('recursive-readdir');
 	recursive(this.wavestackFolder, function (err, files) {
+		var cloudFiles = [];
 		if (!err) {
-			var cloudFiles = [];
 			var fs = require('fs');
-			for (var f in files) {
-				var stat = f.statSync(f);
+			for (var i in files) {
+				var stat = fs.statSync(files[i]);
 				if (stat.isFile()) {
-					var relative = f.slice(this.wavestackFolder.length);
+					var modified = stat.mtime.toDateString() !== 'Invalid Date' ? stat.mtime : stat.ctime;
+					modified = modified > stat.birthtime ? modified : stat.birthtime;
+					var relative = files[i].slice(self.wavestackFolder.length);
 					cloudFiles.push({
 						RelativePath: relative,
-						ModifiedDate: stat.mtime.toISOString()
+						ModifiedUtc: modified.toISOString()
 					});
 				}
 			}
 		}
+		callback(err, cloudFiles);
 	});
 };

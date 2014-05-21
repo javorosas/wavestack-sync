@@ -9,23 +9,21 @@ apiHelper.routes = {
 };
 
 apiHelper.checkLogin = function (callbacks) {
-	$.ajax({
-		url: apiHelper.routes.login,
-		type: 'GET',
-		error: callbacks.onError
-	}).done(function (data) {
-		if (data.success)
-			callbacks.onSuccess(data);
-		else
-			callbacks.onFail();
-	});
+	request.get({ url: apiHelper.routes.login, json: true, callback: function (err, response, body) {
+		if (err || response.statusCode !== 200) {
+			console.log("HEEY");
+			callbacks.onError(err);
+		} else if (body.success) {
+			console.log("LISTEN");
+			callbacks.onSuccess(body);
+		} else {
+			callbacks.onFail(body);
+		}
+	}});
 };
 
 apiHelper.logout = function () {
-	$.ajax({
-		url: apiHelper.routes.logout,
-		type: 'GET',
-		async: false
-	}).done(function (data) {
+	request.get(apiHelper.routes.logout, function (err, res, body) {
+
 	});
 };

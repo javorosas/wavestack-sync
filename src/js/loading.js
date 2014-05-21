@@ -26,11 +26,12 @@ if (typeof loadingView === 'undefined') {
 					// If the user closed the loginWindow without authenticating, close the app.
 					if (loadingView.hasClosedLoginWindow) {
 						// Quit current app
-						win.hide();
-						gui.App.quit();
+						console.log('Login window was closed by user');
+						//win.hide();
+						//gui.App.quit();
 					} else {
 						// Open the login page in a new window
-						var loginWindow = gui.Window.open('http://www.wavestack.com/account/applogin', {
+						loginWindow = gui.Window.open('http://www.wavestack.com/account/applogin', {
 							icon: 'img/icon.png',
 							position: 'center',
 							toolbar: false,
@@ -40,6 +41,20 @@ if (typeof loadingView === 'undefined') {
 						});
 						// Hide this window
 						win.hide();
+						loginWindow.on('loaded', function () {
+							var result = $(loginWindow.window.document.body).text().trim();
+							var splitted = result.split(';');
+							if (splitted[0] === 'OK') {
+								request = require('request');
+								jar = request.jar();
+								var cookie = request.cookie(splitted[1]);
+								console.log(loginWindow.cookie);
+								jar.setCookie(cookie, apiHelper.domain);
+								request = request.defaults({ jar: jar });
+								loginWindow.close();
+							}
+						});
+						
 						// At window close, load this page again, so it will check again is the user is logged in
 						loginWindow.on('closed', function () {
 							win.show();
