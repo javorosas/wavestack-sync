@@ -1,0 +1,25 @@
+{
+  "name": "wavestacksync",
+  "version": "0.1.0",
+  "description": "Sync your projects to the cloud of music creators",
+  "keywords": [],
+  "homepage": "https://github.com/javorosas/wavestacksync",
+  "bugs": "https://github.com/javorosas/wavestacksync/issues",
+  "author": {
+    "name": "Javier Rosas",
+    "email": "javo@wavestack.com",
+    "url": "https://github.com/javorosas"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/javorosas/wavestacksync.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-node-webkit-builder": "^0.1.21"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
