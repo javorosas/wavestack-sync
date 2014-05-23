@@ -4,6 +4,7 @@ apiHelper.routes = {
 	login: apiHelper.domain + '/api/login',
 	logout: apiHelper.domain + '/logout',
 	info: apiHelper.domain + '/api/info',
+	lastSync: apiHelper.domain + '/api/syncDate',
 	tree: apiHelper.domain + '/api/tree',
 	file: apiHelper.domain + '/api/file',
 	folder: apiHelper.domain + '/api/folder',

@@ -1,9 +1,9 @@
-if (typeof DeleteFileLocalTask === 'undefined') {
-	DeleteFileLocalTask = function (path) {
+if (typeof DeleteLocalFileTask === 'undefined') {
+	DeleteLocalFileTask = function (path) {
 		this.path = path;
 	};
 
-	DeleteFileLocalTask.prototype.action = {
+	DeleteLocalFileTask.prototype.action = {
 		past: 'Deleted local',
 		present: 'Deleting local'
 	};
@@ -14,7 +14,7 @@ if (typeof DeleteFileLocalTask === 'undefined') {
 		onComplete: the file was deleted
 		onError: Something happened
 	*/
-	DeleteFileLocalTask.prototype.deleteFileLocal = function(options) {
+	DeleteLocalFileTask.prototype.deleteLocalFile = function(options) {
 		var fs = require('fs-extra');
 		fs.unlink(options.fileName, function (error) {
 			if (!error) {
@@ -31,13 +31,13 @@ if (typeof DeleteFileLocalTask === 'undefined') {
 		onAbort: function to execute to abort the entire synchronization
 		onComplete: function to execute
 	*/
-	DeleteFileLocalTask.prototype.run = function (options) {
+	DeleteLocalFileTask.prototype.run = function (options) {
 		var pathModule = require('path');
 		// don't delete the desktop.ini file
 		if (pathModule.basename(this.path) === 'desktop.ini') {
 			options.onSkip();
 		} else {
-			this.deleteFileLocal({
+			this.deleteLocalFile({
 				file: fileHelper.wavestackFolder + this.path,
 				onComplete: options.onComplete,
 				onError: options.onAbort
