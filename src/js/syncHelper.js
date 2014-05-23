@@ -21,8 +21,8 @@ if (!this.syncHelper) {
 			var task = self.pendingTasks.shift();
 			if (self.cancelRequested) {
 				pauseRequested = false;
-				self.status = self.statusCode.running;
-				callback(null, self.status.paused);
+				self.status = self.statusCode.paused;
+				callback(null, self.statusCode.paused);
 			} else if (task) {
 				task.run({
 					onSkip: next,
@@ -33,13 +33,13 @@ if (!this.syncHelper) {
 					onComplete: function () {
 						self.status = self.statusCode.running;
 						// Report progress
-						callback(/*error*/ null, /*status*/ self.status.running, /*task*/ task);
+						callback(/*error*/ null, /*status*/ self.statusCode.running, /*task*/ task);
 						next();
 					}
 				});
 			} else {
-				self.status = self.statusCode.running;
-				callback(null, self.status.completed);
+				self.status = self.statusCode.completed;
+				callback(null, self.statusCode.completed);
 			}
 		};
 		next();
