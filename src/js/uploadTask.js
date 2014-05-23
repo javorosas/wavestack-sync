@@ -36,13 +36,15 @@ if (typeof UploadTask === 'undefined') {
 		onComplete: function to execute
 	*/
 	UploadTask.prototype.run = function (options) {
-		var hostname require("os").hostname();
-		var stats = require("fs").statSync();
-		if (stats.isFile)
-		{
+		var hostname require('os').hostname();
+		var stats = require('fs').statSync();
+		var pathModule = require('path');
+		if (pathModule.basename(this.path) === 'desktop.ini') {
+			options.onSkip();
+		} else if (stats.isFile) {
 			var dateModified = stats.mtime.toISOString();
 			this.upload({
-				url: apiHelper.routes.file + "?path=" + encodeURIComponent(this.path) + "&dateModified=" + encodeURIComponent(dateModified) + "&client=" + encodeURIComponent(hostname),
+				url: apiHelper.routes.file + '?path=' + encodeURIComponent(this.path) + '&dateModified=' + encodeURIComponent(dateModified) + '&client=' + encodeURIComponent(hostname),
 				localPath: fileHelper.wavestackFolder + this.path,
 				onComplete: options.onComplete,
 				onNetworkError: options.onAbort,
