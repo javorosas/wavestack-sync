@@ -1,12 +1,13 @@
 $(document).ready(function () {
-	syncHelper.startSyncing(function (err, completed, percentage, task) {
+	syncHelper.startSyncing(function (err, status, percentage, task) {
 		if (err) {
 
-		} else if (completed) {
+		} else if (status == syncHelper.status.completed) {
 			$('#main .log').append('<div>Sync completed</div>');
 			$('#main .progress-bar').css('width', '100%');
+			$('#main .progress').removeClass('active');
 			$('#main h3').text('Synced');
-		} else {
+		} else if (status = syncHelper.status.running) {
 			$('#main h3').text('Syncing...');
 			$('#main .progress-bar').css('width', (percentage * 100) + '%');
 			var $log = $('#main .log');

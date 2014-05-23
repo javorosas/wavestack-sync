@@ -4,14 +4,26 @@ if (!localStorage.lastSync) {
 // Singleton
 if (!this.syncHelper) {
 	syncHelper = {
-		pendingTasks: []
+		pendingTasks: [],
+		statusCode: {
+			running: 0,
+			completed: 1,
+			paused: 2,
+			aborted: 3
+		},
+		pauseRequested: false
 	};
+	syncHelper.status = syncHelper.statusCode.completed;
 	
 	syncHelper.runPending = function (callback) {
 		var self = this;
 		var next = function () {
 			var task = self.pendingTasks.shift();
-			if (task) {
+			if (self.cancelRequested) {
+				pauseRequested = false;
+				self.status = self.statusCode.running;
+				callback(null, self.status.paused);
+			} else if (task) {
 				task.run({
 					onSkip: next,
 					onAbort: function () {
@@ -19,13 +31,15 @@ if (!this.syncHelper) {
 						callback(error);
 					},
 					onComplete: function () {
+						self.status = self.statusCode.running;
 						// Report progress
-						callback(/*error*/ null, /*completed*/ false, /*task*/ task);
+						callback(/*error*/ null, /*status*/ self.status.running, /*task*/ task);
 						next();
 					}
 				});
 			} else {
-				callback(null, true);
+				self.status = self.statusCode.running;
+				callback(null, self.status.completed);
 			}
 		};
 		next();
@@ -37,11 +51,11 @@ if (!this.syncHelper) {
 			if (!err) {
 				self.pendingTasks = self.pendingTasks.concat(syncTasks);
 				var total = self.pendingTasks.length;
-				self.runPending(function (error, completed, task) {
+				self.runPending(function (error, status, task) {
 					var percentage = self.pendingTasks.length / total;
 					percentage = percentage < 1 ? 1 - percentage : 0;
 					if (!error) {
-						callback(error, completed, percentage, task);
+						callback(error, status, percentage, task);
 					} else {
 						callback(error);
 					}
@@ -50,5 +64,9 @@ if (!this.syncHelper) {
 				callback(err);
 			}
 		});
+	};
+
+	syncHelper.stopSyncing = function (callback) {
+
 	};
 }
