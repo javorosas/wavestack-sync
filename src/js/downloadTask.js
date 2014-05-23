@@ -63,7 +63,7 @@ if (typeof DownloadTask === 'undefined') {
 		var pathModule = require('path');
 		var directory = pathModule.dirname(fileHelper.wavestackFolder + this.path);
 		this.download({
-			url: apiHelper.routes.file + "?path=" + this.path,
+			url: apiHelper.routes.file + '?path=' + this.path,
 			dest: directory,
 			onComplete: options.onComplete,
 			onNetworkError: options.onAbort,
