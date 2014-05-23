@@ -3,9 +3,12 @@ apiHelper.domain = 'http://www.wavestack.com';
 apiHelper.routes = {
 	login: apiHelper.domain + '/api/login',
 	logout: apiHelper.domain + '/logout',
-	file: apiHelper.domain + '/api/file',
 	info: apiHelper.domain + '/api/info',
-	tree: apiHelper.domain + '/api/tree'
+	tree: apiHelper.domain + '/api/tree',
+	file: apiHelper.domain + '/api/file',
+	folder: apiHelper.domain + '/api/folder',
+	renameFile: apiHelper.domain + '/api/rename',
+	renameFolder: apiHelper.domain + '/api/renameFolder'
 };
 
 apiHelper.checkLogin = function (callbacks) {
