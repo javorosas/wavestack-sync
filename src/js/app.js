@@ -57,6 +57,13 @@ function initUI () {
 			}
 		})
 	);
+	menu.append(
+		new gui.MenuItem({
+			label: 'Wavestack sync ' + gui.App.manifest.version,
+			enabled: false
+		})
+	);
+
 	tray.menu = menu;
 
 	//window.location = "http://www.wavestack.com";
