@@ -8,6 +8,9 @@
     "width": 500,
     "height": 600,
     "position": "center",
-    "resizable": true
+    "resizable": false
+  },
+  "dependencies": {
+    "nedb": "~0.10.5"
   }
 }
