@@ -13,4 +13,13 @@ h1, h2, h3, h4, h5, h6 {
 	position: absolute;
 	width: 100%;
 	padding: 15px;
+	/*background-color: #f0f0f0;*/
+}
+
+.btn.btn-primary {
+	background-color: #009ee2;
+}
+
+.btn.btn-primary:hover {
+	background-color: #008ed2;
 }
