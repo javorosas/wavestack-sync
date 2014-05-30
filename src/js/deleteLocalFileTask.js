@@ -16,6 +16,7 @@ if (typeof DeleteLocalFileTask === 'undefined') {
 	*/
 	DeleteLocalFileTask.prototype.deleteLocalFile = function(options) {
 		var fs = require('fs-extra');
+		options.onBegin();
 		fs.unlink(options.fileName, function (error) {
 			if (!error) {
 				options.onComplete();
@@ -38,7 +39,8 @@ if (typeof DeleteLocalFileTask === 'undefined') {
 			options.onSkip();
 		} else {
 			this.deleteLocalFile({
-				file: fileHelper.wavestackFolder + this.path,
+				fileName: fileHelper.wavestackFolder + this.path,
+				onBegin: options.onBegin,
 				onComplete: options.onComplete,
 				onError: options.onAbort
 			});

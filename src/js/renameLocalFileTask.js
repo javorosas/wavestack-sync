@@ -1,10 +1,10 @@
-if (typeof RenameFileLocalTask === 'undefined') {
-	RenameFileLocalTask = function (oldPath, newPath) {
+if (typeof RenameLocalFileTask === 'undefined') {
+	RenameLocalFileTask = function (oldPath, newPath) {
 		this.path = newPath;
 		this.oldPath = oldPath;
 	};
 
-	RenameFileLocalTask.prototype.action = {
+	RenameLocalFileTask.prototype.action = {
 		past: 'Renamed local',
 		present: 'Renaming local'
 	};
@@ -15,8 +15,9 @@ if (typeof RenameFileLocalTask === 'undefined') {
 		onComplete: the file was deleted
 		onError: Something happened
 	*/
-	RenameFileLocalTask.prototype.renameFileLocal = function(options) {
+	RenameLocalFileTask.prototype.renameLocalFile = function(options) {
 		var fs = require('fs-extra');
+		options.onBegin();
 		fs.rename(options.oldPath, options.newPath, function (error) {
 			if (!error) {
 				options.onComplete();
@@ -32,11 +33,12 @@ if (typeof RenameFileLocalTask === 'undefined') {
 		onAbort: function to execute to abort the entire synchronization
 		onComplete: function to execute
 	*/
-	RenameFileLocalTask.prototype.run = function (options) {
+	RenameLocalFileTask.prototype.run = function (options) {
 		var pathModule = require('path');
-		this.renameFileLocal({
+		this.renameLocalFile({
 				oldPath: fileHelper.wavestackFolder + this.oldPath,
 				newPath: fileHelper.wavestackFolder + this.path,
+				onBegin: options.onBegin,
 				onComplete: options.onComplete,
 				onError: options.onAbort
 		});

@@ -14,10 +14,14 @@ if (typeof loadingView === 'undefined') {
 				// User is logged in
 				onSuccess: function (data) {
 					loadingView.hasClosedLoginWindow = false;
-					localStorage.username = data.username;
-					localStorage.email = data.email;
-					localStorage.stageName = data.stageName;
-					loadTemplate('welcome');
+					currentUser = {
+						username: data.username,
+						email: data.email,
+						stageName: data.stageName
+					};
+					initUserConfigs(function () {
+						loadTemplate('welcome');
+					});
 				},
 				// User is not logged in
 				onFail: function () {

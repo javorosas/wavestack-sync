@@ -19,6 +19,7 @@ if (typeof DeleteRemoteFolderTask === 'undefined') {
 		onFailed: Maybe the file is in use
 	*/
 	DeleteRemoteFolderTask.prototype.deleteRemoteFolder = function(options) {
+		options.onBegin();
 		request.del({ url: options.url, json: true, callback: function (err, response, body) {
 			if (err || response.statusCode != 200) {
 				options.onNetworkError(err);
@@ -39,6 +40,7 @@ if (typeof DeleteRemoteFolderTask === 'undefined') {
 	DeleteRemoteFolderTask.prototype.run = function (options) {
 		this.deleteRemoteFolder({
 			url: apiHelper.routes.folder + '?path=' + this.path,
+			onBegin: options.onBegin,
 			onComplete: options.onComplete,
 			onNetworkError: options.onAbort,
 			onFailed: options.onAbort 

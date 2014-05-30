@@ -20,11 +20,13 @@ if (typeof DownloadTask === 'undefined') {
 		onFileError: Maybe the file is in use
 	*/
 	DownloadTask.prototype.download = function(options) {
+		var self = this;
 		var fs = require('fs-extra');
 		var pathModule = require('path');
 		// Get the directory path to the destination file
 		var directory = options.dest;
 		var fileName = directory + "/" + pathModule.basename(this.path);
+		options.onBegin();
 		// Create the directory path before downloading the file
 		fs.mkdirs(directory, function (error) {
 			if (!error) {
@@ -41,10 +43,10 @@ if (typeof DownloadTask === 'undefined') {
 						options.onFileError(error);
 					}).on('close', function () {
 						// Once downloaded, update the file stamps with info from the server
-						request.get({ url: apiHelper.routes.info + '?path=' + encodeURIComponent(this.path), json: true, callback: function (error, response, body) {
-							var remoteInfo = response;
+						request.get({ url: apiHelper.routes.info + '?path=' + encodeURIComponent(self.path), json: true, callback: function (error, response, body) {
+							var remoteInfo = body.file;
 							// Set modified time to the new file
-							fs.utimes(fileName, new Date(remoteInfo.ModifiedUtc), new Date(remoteInfo.ModifiedDate));
+							fs.utimes(fileName, new Date(remoteInfo.ModifiedUtc), new Date(remoteInfo.ModifiedUtc));
 							options.onComplete();
 						}});
 					})
@@ -65,6 +67,7 @@ if (typeof DownloadTask === 'undefined') {
 		this.download({
 			url: apiHelper.routes.file + '?path=' + this.path,
 			dest: directory,
+			onBegin: options.onBegin,
 			onComplete: options.onComplete,
 			onNetworkError: options.onAbort,
 			onFileError: options.onAbort 

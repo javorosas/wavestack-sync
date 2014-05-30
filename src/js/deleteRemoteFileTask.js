@@ -19,6 +19,7 @@ if (typeof DeleteRemoteFileTask === 'undefined') {
 		onFailed: Maybe the file is in use
 	*/
 	DeleteRemoteFileTask.prototype.deleteRemoteFile = function(options) {
+		options.onBegin();
 		request.del({ url: options.url, json: true, callback: function (err, response, body) {
 			if (err || response.statusCode != 200) {
 				options.onNetworkError(err);
@@ -41,11 +42,13 @@ if (typeof DeleteRemoteFileTask === 'undefined') {
 		if (pathModule.basename(this.path) === 'desktop.ini') {
 			options.onSkip();
 		} else {
+			var hostname = require('os').hostname();
 			this.deleteRemoteFile({
-				url: apiHelper.routes.file + '?path=' + this.path,
+				url: apiHelper.routes.file + '?path=' + encodeURIComponent(this.path) + '&client=' + encodeURIComponent(hostname),
+				onBegin: options.onBegin,
 				onComplete: options.onComplete,
 				onNetworkError: options.onAbort,
-				onFailed: options.onAbort 
+				onFailed: options.onAbort
 			});
 		}
 	};

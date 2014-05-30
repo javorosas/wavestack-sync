@@ -20,6 +20,7 @@ if (typeof RenameRemoteFileTask === 'undefined') {
 		onFailed: Maybe the file is in use
 	*/
 	RenameRemoteFileTask.prototype.renameRemoteFile = function(options) {
+		options.onBegin();
 		request.post({ url: options.url, json: true, callback: function (err, response, body) {
 			if (err || response.statusCode != 200) {
 				options.onNetworkError(err);
@@ -41,6 +42,7 @@ if (typeof RenameRemoteFileTask === 'undefined') {
 		var pathModule = require('path');
 		this.renameRemoteFile({
 			url: apiHelper.routes.renameFile + '?oldPath=' + encodeURIComponent(this.oldPath) + '&newPath=' + encodeURIComponent(this.path),
+			onBegin: options.onBegin,
 			onComplete: options.onComplete,
 			onNetworkError: options.onAbort,
 			onFailed: options.onAbort

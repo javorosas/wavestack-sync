@@ -2,12 +2,14 @@ if (typeof manualSyncer === 'undefined') {
     // Singleton
     manualSyncer = {
         lastSyncRemmote: '',
+        lastSyncLocal: '',
 
         // FILTERS
         /// Condition: Remote file does not exist locally AND remote file has a newer modified date than local's LastSync.
         conditionToCreateLocal: function (localFiles) {
+            var self = this;
             return function (remoteFile) {
-                var remoteHasNewerDateThanLocalSync = (new Date(remoteFile.ModifiedUtc)).getTime() > (new Date(localStorage.lastSync)).getTime();
+                var remoteHasNewerDateThanLocalSync = (new Date(remoteFile.ModifiedUtc)).getTime() > (new Date(self.lastSyncLocal)).getTime();
                 var remoteFileNotExistLocally = !localFiles.some(function (localFile) {
                     return (localFile.RelativePath === remoteFile.RelativePath);
                 });
@@ -31,11 +33,13 @@ if (typeof manualSyncer === 'undefined') {
         conditionToUpdateLocal: function (localFiles) {
             var self = this;
             return function (remoteFile) {
-                var localAndRemoteFileExist = localFiles.some(function (localFile) {
-                    return (localFile.RelativePath === remoteFile.RelativePath);
+                var condition = localFiles.some(function (localFile) {
+                    var localAndRemoteFileExist = localFile.RelativePath === remoteFile.RelativePath;
+                    var remoteFileIsNewerThanLocal = (new Date(remoteFile.ModifiedUtc)).getTime() > (new Date(localFile.ModifiedUtc)).getTime();
+                    return localAndRemoteFileExist && remoteFileIsNewerThanLocal;
                 });
-                var remoteFileIsNewerThanLocal = (new Date(remoteFile.ModifiedUtc)).getTime() > (new Date(localFile.ModifiedUtc)).getTime();
-                return localAndRemoteFileExist && remoteFileIsNewerThanLocal;
+                
+                return condition;
             };
         },
 
@@ -43,11 +47,12 @@ if (typeof manualSyncer === 'undefined') {
         conditionToUpdateRemote: function (remoteFiles) {
             var self = this;
             return function (localFile) {
-                var localAndRemoteFileExist = remoteFiles.some(function (remoteFile) {
-                    return (localFile.RelativePath === remoteFile.RelativePath);
+                var condition = remoteFiles.some(function (remoteFile) {
+                    var localAndRemoteFileExist = localFile.RelativePath === remoteFile.RelativePath;
+                    var localFileIsNewerThanRemote = (new Date(localFile.ModifiedUtc)).getTime() > (new Date(remoteFile.ModifiedUtc)).getTime();
+                    return localAndRemoteFileExist && localFileIsNewerThanRemote;
                 });
-                var localFileIsNewerThanRemote = (new Date(localFile.ModifiedUtc)).getTime() > (new Date(remoteFile.ModifiedUtc)).getTime();
-                return localAndRemoteFileExist && localFileIsNewerThanRemote;
+                return condition;
             };
         },
 
@@ -60,8 +65,8 @@ if (typeof manualSyncer === 'undefined') {
                     return (remoteFile.RelativePath === localFile.RelativePath);
                 });
                 var remoteSyncIsNewerThanLocalFile = (new Date(self.lastSyncRemote)).getTime() > (new Date(localFile.ModifiedUtc)).getTime();
-                var localSyncIsNewerThanLocalFile = (new Date(localStorage.lastSync)).getTime() > (new Date(localFile.ModifiedUtc)).getTime();
-                return localFileNotExistRemotely && localFileIsNewerThanRemote && localSyncIsNewerThanLocalFile;
+                var localSyncIsNewerThanLocalFile = (new Date(self.lastSyncLocal)).getTime() > (new Date(localFile.ModifiedUtc)).getTime();
+                return localFileNotExistRemotely && remoteSyncIsNewerThanLocalFile && localSyncIsNewerThanLocalFile;
             };
         },
 
@@ -72,7 +77,7 @@ if (typeof manualSyncer === 'undefined') {
                 var remoteFileNotExistLocally = !localFiles.some(function (localFile) {
                     return (localFile.RelativePath === remoteFile.RelativePath);
                 });
-                var localSyncIsNewerThanRemoteFile = (new Date(localStorage.lastSync)).getTime() > (new Date(remoteFile.ModifiedUtc)).getTime();
+                var localSyncIsNewerThanRemoteFile = (new Date(self.lastSyncLocal)).getTime() > (new Date(remoteFile.ModifiedUtc)).getTime();
                 return remoteFileNotExistLocally && localSyncIsNewerThanRemoteFile;
             };
         }
@@ -93,7 +98,7 @@ if (typeof manualSyncer === 'undefined') {
         var filesToCreate = localFiles.filter(this.conditionToCreateRemote(remoteFiles));
         var tasks = [];
         filesToCreate.forEach(function (file) {
-            tasks.push(new UploadTask(file.RelativePath));
+            tasks.push(new UploadTask(file.RelativePath, file.ModifiedUtc));
         });
         return tasks;
     };
@@ -115,7 +120,7 @@ if (typeof manualSyncer === 'undefined') {
         var filesToUpdate = localFiles.filter(this.conditionToUpdateRemote(remoteFiles));
         var tasks = [];
         filesToUpdate.forEach(function (file) {
-            tasks.push(new UploadTask(file.RelativePath));
+            tasks.push(new UploadTask(file.RelativePath, file.ModifiedUtc));
         });
         return tasks;
     };
@@ -158,33 +163,28 @@ if (typeof manualSyncer === 'undefined') {
     callback = function(err, syncTasks);
     syncTasks is an syncTask Array
     */
-    manualSyncer.getTasks = function (callback) {
+    manualSyncer.getTasks = function (lastSyncLocal, lastSyncRemote, callback) {
         var self = this;
-        // first, get the server's lastSync date
-        request.get({ url: apiHelper.routes.lastSync, json: true, callback: function (err, response, body) {
+        
+        self.lastSyncLocal = lastSyncLocal;
+        self.lastSyncRemote = lastSyncRemote;
+        // get a list of cloudFiles from the server
+        request({ url: apiHelper.routes.tree, json: true, callback: function (err, response, body) {
             if (!err && response.statusCode === 200) {
-                self.lastSyncRemote = body.date;
-                // secondly, get a list of cloudFiles from the server
-                request({ url: apiHelper.routes.tree, json: true, callback: function (err, response, body) {
-                    if (!err && response.statusCode === 200) {
-                        var remoteFiles = body.tree;
-                        // Now get a list of localFiles
-                        fileHelper.getLocalFiles(function (err, localFiles) {
-                            if (err) {
-                                callback(err);
-                            }
-                            else {
-                                // Get their tasks
-                                var syncTasks = self.getCrudTasks(localFiles, remoteFiles);
-                                callback(err, syncTasks);
-                            }
-                        });
-                    } else {
-                        callback(err, []);
+                var remoteFiles = body.tree;
+                // Now get a list of localFiles
+                fileHelper.getLocalFiles(function (err, localFiles) {
+                    if (err) {
+                        callback(err);
                     }
-                }});
+                    else {
+                        // Get their tasks
+                        var syncTasks = self.getCrudTasks(localFiles, remoteFiles);
+                        callback(err, syncTasks);
+                    }
+                });
             } else {
-                callback(err || body.message, []);
+                callback(err, []);
             }
         }});
     };
