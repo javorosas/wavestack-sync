@@ -24,8 +24,28 @@ apiHelper.checkLogin = function (callbacks) {
 	}});
 };
 
-apiHelper.logout = function () {
-	request.get(apiHelper.routes.logout, function (err, res, body) {
-
+apiHelper.logout = function (callback) {
+	// request.del(apiHelper.routes.login, function (err, res, body) {
+	// 	if (err || res.statusCode!== 200) {
+	// 		callback(err || body.message, body);
+	// 	} else {
+	// 		callback(null, body);
+	// 	}
+		
+	// });
+	$.ajax({
+		url: apiHelper.routes.login,
+		type: 'DELETE'
+	}).done(function (data) {
+		console.log('## ' + JSON.stringify(data));
+		if (data.success) {
+			request = require('request');
+			callback(null);
+		}
 	});
+
+	//require('nw.gui').Window.new(apiHelper.routes.logout).on('load');
+
+	
+	
 };

@@ -1,0 +1,50 @@
+#main button#hide {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	width: 100px;
+}
+
+#main .status {
+	margin-top: 15px;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+#main .last-sync {
+	margin-bottom: 20px;
+}
+
+#main .panel {
+	overflow: hidden;
+	padding: 10px;
+	background-color: inherit;
+}
+
+#main .panel .col-xs-6 {
+	line-height: 49px;
+}
+
+#main .panel .col-xs-6:last-child {
+	text-align: right;
+}
+
+#main .panel .disconnect {
+	line-height: 1;
+	padding: 5px 15px;
+}
+
+#main .identity .stage-name {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-bottom: 5px;
+}
+
+#main .completed {
+	color: #4FAD4D;
+}
+
+#main .paused {
+	color: #F33;
+}

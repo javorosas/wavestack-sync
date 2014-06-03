@@ -24,15 +24,17 @@ function loadTemplate(file) {
 }
 
 function initUI () {
+	exit = false;
 	var gui = require("nw.gui");
 
-	var win = gui.Window.get();
+	win = gui.Window.get();
 	var tray = new gui.Tray({
-			icon: 'img/icon.png'
+			icon: 'img/icon.png',
+			tooltip: 'Wavestack ' + gui.App.manifest.version
 		});
 
 	win.on('minimize', function () {
-		//win.hide();
+		//this.hide();
 	});
 
 	tray.on('click', function () {
@@ -42,8 +44,12 @@ function initUI () {
 	});
 
 	win.on('close', function () {
-		win.minimize();
-		return false;
+		if (!exit) {
+			this.hide();
+			return false;
+		} else {
+			win.close(true);
+		}
 	});
 
 	// Give it a menu
@@ -53,7 +59,8 @@ function initUI () {
 			label: 'Exit',
 			click: function () {
 				gui.App.closeAllWindows();
-				gui.App.quit();
+				exit = true;
+				//gui.App.quit();
 			}
 		})
 	);

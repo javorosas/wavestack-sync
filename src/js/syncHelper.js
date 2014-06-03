@@ -8,7 +8,7 @@ if (!this.syncHelper) {
 			paused: 2,
 			aborted: 3
 		},
-		cancelRequested: false,
+		pauseRequested: false,
 		somethingChanged: false
 	};
 	syncHelper.status = syncHelper.statusCode.completed;
@@ -17,8 +17,7 @@ if (!this.syncHelper) {
 		var self = this;
 		var next = function () {
 			var task = self.pendingTasks.shift();
-			if (self.cancelRequested) {
-				self.cancelRequested = false;
+			if (self.pauseRequested) {
 				self.status = self.statusCode.paused;
 				callback(null, self.statusCode.paused);
 			} else if (task) {
@@ -48,6 +47,7 @@ if (!this.syncHelper) {
 	
 	syncHelper.startSyncing = function (callback) {
 		var self = this;
+		self.pauseRequested = false;
 		this.getLastSync(function (err, lastSyncLocal, lastSyncRemote) {
 			manualSyncer.getTasks(lastSyncLocal, lastSyncRemote, function (err, syncTasks) {
 				if (!err) {

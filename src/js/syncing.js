@@ -7,6 +7,9 @@ $(document).ready(function () {
 			$('#main .progress-bar').css('width', '100%');
 			$('#main .progress').removeClass('active');
 			$('#main h3').text('Synced');
+			loadTemplate('idle');
+		} else if (status === syncHelper.statusCode.paused) {
+			loadTemplate('idle');
 		} else if (status === syncHelper.statusCode.running) {
 			$('#main h3').text('Syncing...');
 			$('#main .progress-bar').css('width', (percentage * 100) + '%');
@@ -19,5 +22,14 @@ $(document).ready(function () {
 			});
 			$log.animate({ scrollTop: $log.get(0).scrollHeight }, 1000);
 		}
+	});
+	$('button#hide').click(function () {
+		var win = require('nw.gui').Window.get();
+		console.log(win);
+		win.hide();
+	});
+	$('button#pause').click(function () {
+		syncHelper.pause();
+		loadTemplate('settings');
 	});
 });

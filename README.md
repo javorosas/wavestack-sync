@@ -38,11 +38,10 @@ node-webkit provides a way of writing an app **once** and compile for the three 
 
 ## How to compile/run
 1. Clone this repo
-2. Zip the content of the `src` folder to a zip file.
-4. Change the extension of the zipped file from `.zip` to `.nw`. (Psst! You can do 2 and 3 in one step if the output name of your zipped file has the `nw` extension).
-5. Download the [node-webkit prebuilt binary](https://github.com/rogerwang/node-webkit#downloads) for your OS.
-6. On the command line, run:
-
-	$ cd path_to_the_binary/nw path_to_the_zipped/file.nw
+2. Install [grunt](http://gruntjs.com/getting-started)
+3. On the terminal:
+	$ cd path_to_the_project
+	$ grunt
+4. It will create a folder named `webkitbuilds`. Navigate through that directory, according to the platform you're running, and open the executable file.
 
 That's it!

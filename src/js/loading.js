@@ -31,7 +31,8 @@ if (typeof loadingView === 'undefined') {
 					if (loadingView.hasClosedLoginWindow) {
 						// Quit current app
 						console.log('Login window was closed by user');
-						//win.hide();
+						exit = true;
+						win.close();
 						//gui.App.quit();
 					} else {
 						// Open the login page in a new window

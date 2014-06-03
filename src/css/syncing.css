@@ -7,7 +7,14 @@
 	border-radius: 3px;
 	padding: 5px 10px;
 	box-shadow: rgba(10,10,10,0.2) 0px 0px 5px inset;
-	height: 485px;
+	height: 450px;
 	overflow-y: scroll;
 	font-size: 13px;
+}
+
+#main button#hide {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	width: 100px;
 }
