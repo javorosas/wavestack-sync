@@ -1,3 +1,11 @@
+#main {
+	text-align: center;
+}
+
+#main h5 {
+	text-align: left;
+}
+
 #main button#hide {
 	position: absolute;
 	bottom: 15px;
@@ -11,7 +19,8 @@
 	text-align: center;
 }
 
-#main .last-sync {
+#main .last-sync,
+#main .resume {
 	margin-bottom: 20px;
 }
 
@@ -29,7 +38,8 @@
 	text-align: right;
 }
 
-#main .panel .disconnect {
+#main .panel .disconnect,
+#main .resume {
 	line-height: 1;
 	padding: 5px 15px;
 }

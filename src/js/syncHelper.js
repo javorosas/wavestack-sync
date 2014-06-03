@@ -89,7 +89,7 @@ if (!this.syncHelper) {
 		});
 	};
 
-	syncHelper.stopSyncing = function (callback) {
+	syncHelper.pause = function (callback) {
 		this.pauseRequested = true;
 	};
 

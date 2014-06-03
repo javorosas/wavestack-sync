@@ -29,7 +29,10 @@ $(document).ready(function () {
 		win.hide();
 	});
 	$('button#pause').click(function () {
-		syncHelper.pause();
-		loadTemplate('settings');
+		this.disabled = true;
+		$('#main h3').text('Pausing...');
+		syncHelper.pause(function () {
+			loadTemplate('settings');
+		});
 	});
 });

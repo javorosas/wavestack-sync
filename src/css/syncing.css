@@ -12,9 +12,13 @@
 	font-size: 13px;
 }
 
-#main button#hide {
+#main button {
+	width: 100px;
+	margin-left: 10px;
+}
+
+#main .button-container {
 	position: absolute;
 	bottom: 15px;
 	right: 15px;
-	width: 100px;
 }
