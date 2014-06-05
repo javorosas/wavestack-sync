@@ -23,9 +23,9 @@ node-webkit provides a way of writing an app **once** and compile for the three 
 	[x] Log in.
 	[x] Implementations of syncable tasks (download, upload, rename).
 	[x] Perform a manual sync on startup.
+	[x] User can pause and resume at any time.
 
 ### To-do
-	[ ] User can pause and resume at any time.
 	[ ] Monitor the Wavestack folder and run sync tasks when something changes.
 	[ ] Check updates on server with polling.
 	[ ] When user disconnects, copy the Wavestack folder to /user_path/Wavestack_<username>.
