@@ -26,6 +26,7 @@ if (typeof DownloadTask === 'undefined') {
 		// Get the directory path to the destination file
 		var directory = options.dest;
 		var fileName = directory + "/" + pathModule.basename(this.path);
+		var tmpFile = fileHelper.wavestackFolder + '.tmp';
 		options.onBegin();
 		// Create the directory path before downloading the file
 		fs.mkdirs(directory, function (error) {
@@ -38,15 +39,18 @@ if (typeof DownloadTask === 'undefined') {
 						options.onNetworkError(error);
 					}
 				}}).pipe(
-					// Write downloaded data to the new file
-					fs.createWriteStream(fileName).on('error', function (error) {
+					// Write downloaded data to a temporary file, in case download is interrupted
+					fs.createWriteStream(tmpFile).on('error', function (error) {
 						options.onFileError(error);
 					}).on('close', function () {
+						// Move the temporary file to the final version. Id file exists, it is overwriten.
+						fs.renameSync(tmpFile, fileName);
 						// Once downloaded, update the file stamps with info from the server
 						request.get({ url: apiHelper.routes.info + '?path=' + encodeURIComponent(self.path), json: true, callback: function (error, response, body) {
 							var remoteInfo = body.file;
 							// Set modified time to the new file
-							fs.utimes(fileName, new Date(remoteInfo.ModifiedUtc), new Date(remoteInfo.ModifiedUtc));
+							var date = new Date(remoteInfo.ModifiedUtc).getTime() / 1000;
+							fs.utimes(fileName, date, date);
 							options.onComplete();
 						}});
 					})
