@@ -52,9 +52,7 @@ if (typeof syncingView === 'undefined') {
 				}
 			});
 			$('button#hide').click(function () {
-				var win = require('nw.gui').Window.get();
-				console.log(win);
-				win.hide();
+				win.close();
 			});
 			$('button#pause').click(syncingView.pause);
 		});

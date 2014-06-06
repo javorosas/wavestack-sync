@@ -43,14 +43,13 @@ if (typeof idleView === 'undefined') {
 			$resume.on('click', idleView.resume);
 			$('.disconnect').on('click', function () {
 				apiHelper.logout(function (err, body) {
-					console.log(body);
 					if (!err) {
 						loadTemplate('loading');
 					}
 				});
 			});
 			$('#hide').on('click', function () {
-				require("nw.gui").Window.get().hide();
+				win.close();
 			});
 			$('.identity .stage-name').text(currentUser.stageName);
 			$('.identity .email').text(currentUser.email);

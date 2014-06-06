@@ -61,7 +61,7 @@ if (typeof loadingView === 'undefined') {
 						});
 						loginWindow.isOpen = true;
 						// Hide this window
-						win.hide();
+						win.close();
 						loginWindow.on('loaded', function () {
 							var result = $(loginWindow.window.document.body).text().trim();
 							var splitted = result.split(';');
@@ -74,13 +74,13 @@ if (typeof loadingView === 'undefined') {
 								loginWindow.close();
 							} else {
 								loginWindow.show();
+								loginWindow.focus();
 								loadingView.firstLogin = true;
 							}
 						});
 						
 						// At window close, load this page again, so it will check again is the user is logged in
 						loginWindow.on('closed', function () {
-							//win.show();
 							loadingView.hasClosedLoginWindow = true;
 							loginWindow.isOpen = false;
 							loadTemplate('loading');

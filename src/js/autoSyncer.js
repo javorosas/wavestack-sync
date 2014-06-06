@@ -7,7 +7,6 @@ if (typeof autoSyncer === 'undefined') {
         var Gaze = require('gaze').Gaze;
         var pattern = '**/*';
         var folder = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + "/Wavestack";
-        console.log(folder);
         var options = {
             cwd: folder
         };
@@ -21,11 +20,6 @@ if (typeof autoSyncer === 'undefined') {
                 console.log("FILE: " + JSON.stringify(watched));
               });
           } else {
-              // Get all watched files
-              this.watched(function(watched) {
-                console.log("WATCHED: " + JSON.stringify(watched));
-              });
-
               // On file changed
               this.on('changed', function(filepath) {
                 console.log(filepath + ' was changed');

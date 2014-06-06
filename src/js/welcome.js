@@ -1,7 +1,7 @@
 if (typeof welcomeView === 'undefined') {
 	welcomeView = {};
 	welcomeView.init = function () {
-		win.show();
+		win.show2();
 		$(document).ready(function () {
 			$('h2').append(', ' + currentUser.stageName);
 			$('button.next').click(function () {

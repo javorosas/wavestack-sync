@@ -28,26 +28,37 @@ function initUI () {
 	var gui = require("nw.gui");
 
 	win = gui.Window.get();
+	win.isVisible = false;
 	tray = new gui.Tray({
 		icon: 'img/icon.png',
 		tooltip: 'Wavestack ' + gui.App.manifest.version
 	});
-	win.hide();
 
 	win.on('minimize', function () {
 		//this.hide();
 	});
 
-	tray.on('click', function () {
-		if (loginWindow)
-			if (loginWindow.isOpen)
+	win.show2 = function () {
+		if (loginWindow) {
+			if (loginWindow.isOpen) {
+				loginWindow.focus();
 				return false;
+			}
+		}
 		win.restore();
 		win.show();
 		win.focus();
+		win.isVisible = true;
+		tray.menu.items[tray.menu.items.length - 2].label = 'Hide';
+	}
+
+	tray.on('click', function () {
+		win.show2();
 	});
 
 	win.on('close', function () {
+		win.isVisible = false;
+		tray.menu.items[tray.menu.items.length - 2].label = 'Show';
 		if (!exit) {
 			this.hide();
 			return false;
@@ -65,6 +76,26 @@ function initUI () {
 				gui.App.closeAllWindows();
 				exit = true;
 				//gui.App.quit();
+			}
+		})
+	);
+	menu.append(
+		new gui.MenuItem({
+			label: 'Go to my Wavestack',
+			click: function () {
+				var gui = require('nw.gui');
+				gui.Shell.openExternal('https://www.wavestack.com/' + currentUser.username);
+			}
+		})
+	);
+	menu.append(
+		new gui.MenuItem({
+			label: 'Show',
+			click: function () {
+				if (win.isVisible)
+					win.close();
+				else
+					win.show2();
 			}
 		})
 	);

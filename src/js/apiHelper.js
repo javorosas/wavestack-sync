@@ -37,7 +37,6 @@ apiHelper.logout = function (callback) {
 		url: apiHelper.routes.login,
 		type: 'DELETE'
 	}).done(function (data) {
-		console.log('## ' + JSON.stringify(data));
 		if (data.success) {
 			request = require('request');
 			callback(null);
