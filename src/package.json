@@ -3,12 +3,14 @@
   "main": "app.html",
   "version": "0.6.0",
   "window": {
+    "title": "Wavestack",
     "icon": "img/icon.png",
     "toolbar": false,
     "width": 500,
     "height": 600,
     "position": "center",
-    "resizable": false
+    "resizable": false,
+    "show": false
   },
   "dependencies": {
     "nedb": "~0.10.5",

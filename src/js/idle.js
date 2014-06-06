@@ -6,7 +6,6 @@ if (typeof idleView === 'undefined') {
 	}
 
 	idleView.init = function () {
-		console.log("HEEEEY");
 		tray.menu.items.forEach(function (i) {
 			if (i.tag === 'pause') {
 				tray.menu.remove(i);

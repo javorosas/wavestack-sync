@@ -29,15 +29,19 @@ function initUI () {
 
 	win = gui.Window.get();
 	tray = new gui.Tray({
-			icon: 'img/icon.png',
-			tooltip: 'Wavestack ' + gui.App.manifest.version
-		});
+		icon: 'img/icon.png',
+		tooltip: 'Wavestack ' + gui.App.manifest.version
+	});
+	win.hide();
 
 	win.on('minimize', function () {
 		//this.hide();
 	});
 
 	tray.on('click', function () {
+		if (loginWindow)
+			if (loginWindow.isOpen)
+				return false;
 		win.restore();
 		win.show();
 		win.focus();

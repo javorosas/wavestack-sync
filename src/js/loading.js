@@ -50,13 +50,16 @@ if (typeof loadingView === 'undefined') {
 					} else {
 						// Open the login page in a new window
 						loginWindow = gui.Window.open('http://www.wavestack.com/account/applogin', {
-							icon: '../img/icon.png',
+							title: 'Wavestack',
+							icon: 'img/icon.png',
 							position: 'center',
 							toolbar: false,
 							width: 500,
 							height: 600,
-							resizable: true
+							resizable: true,
+							show: false
 						});
+						loginWindow.isOpen = true;
 						// Hide this window
 						win.hide();
 						loginWindow.on('loaded', function () {
@@ -66,19 +69,20 @@ if (typeof loadingView === 'undefined') {
 								request = require('request');
 								jar = request.jar();
 								var cookie = request.cookie(splitted[1]);
-								console.log(loginWindow.cookie);
 								jar.setCookie(cookie, apiHelper.domain);
 								request = request.defaults({ jar: jar });
 								loginWindow.close();
 							} else {
+								loginWindow.show();
 								loadingView.firstLogin = true;
 							}
 						});
 						
 						// At window close, load this page again, so it will check again is the user is logged in
 						loginWindow.on('closed', function () {
-							win.show();
+							//win.show();
 							loadingView.hasClosedLoginWindow = true;
+							loginWindow.isOpen = false;
 							loadTemplate('loading');
 						});
 					}
