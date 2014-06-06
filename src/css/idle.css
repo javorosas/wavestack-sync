@@ -2,7 +2,7 @@
 	text-align: center;
 }
 
-#main h5 {
+#main h5, h4 {
 	text-align: left;
 }
 
@@ -38,11 +38,11 @@
 	text-align: right;
 }
 
-#main .panel .disconnect,
+/*#main .panel .disconnect,
 #main .resume {
 	line-height: 1;
 	padding: 5px 15px;
-}
+}*/
 
 #main .identity .stage-name {
 	text-overflow: ellipsis;

@@ -1,34 +1,62 @@
-$(document).ready(function () {
-	$resume = $('button.resume');
-	if (syncHelper.status === syncHelper.statusCode.completed) {
-		$('.status')
-			.removeClass('paused')
-			.addClass('completed')
-			.text('Sync completed');
-		$('button.resume').hide();
-		$('.last-sync').show();
-	} else {
-		$('.status')
-			.removeClass('completed')
-			.addClass('paused')
-			.text('Sync paused');
-		$resume.show();
-		$('.last-sync').hide();
-	}
-	$resume.on('click', function () {
+if (typeof idleView === 'undefined') {
+	idleView = { };
+
+	idleView.resume = function () {
 		loadTemplate('syncing');
-	});
-	$('.disconnect').on('click', function () {
-		apiHelper.logout(function (err, body) {
-			console.log(body);
-			if (!err) {
-				loadTemplate('loading');
+	}
+
+	idleView.init = function () {
+		console.log("HEEEEY");
+		tray.menu.items.forEach(function (i) {
+			if (i.tag === 'pause') {
+				tray.menu.remove(i);
+				return;
 			}
 		});
-	});
-	$('#hide').on('click', function () {
-		require("nw.gui").Window.get().hide();
-	});
-	$('.identity .stage-name').text(currentUser.stageName);
-	$('.identity .email').text(currentUser.email);
-});
+		var gui = require('nw.gui');
+		var item = new gui.MenuItem({
+			label: 'Sync now',
+			click: function () {
+				tray.menu.remove(this);
+				idleView.resume();
+			}
+		});
+		item.tag = 'sync';
+		tray.menu.insert(item, 1);
+
+		$(document).ready(function () {
+			$resume = $('button.resume');
+			if (syncHelper.status === syncHelper.statusCode.completed) {
+				$('.status')
+					.removeClass('paused')
+					.addClass('completed')
+					.text('Sync completed');
+				//$resume.hide();
+				$('.last-sync').show();
+			} else {
+				$('.status')
+					.removeClass('completed')
+					.addClass('paused')
+					.text('Sync paused');
+				$resume.show();
+				$('.last-sync').hide();
+			}
+			$resume.on('click', idleView.resume);
+			$('.disconnect').on('click', function () {
+				apiHelper.logout(function (err, body) {
+					console.log(body);
+					if (!err) {
+						loadTemplate('loading');
+					}
+				});
+			});
+			$('#hide').on('click', function () {
+				require("nw.gui").Window.get().hide();
+			});
+			$('.identity .stage-name').text(currentUser.stageName);
+			$('.identity .email').text(currentUser.email);
+		});
+	};
+}
+
+idleView.init();

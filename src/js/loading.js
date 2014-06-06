@@ -1,7 +1,17 @@
 if (typeof loadingView === 'undefined') {
-	loadingView = {};
-	loadingView.hasClosedLoginWindow = false;
+	loadingView = {
+		hasClosedLoginWindow: false,
+		firstLogin: false
+	};
 	loadingView.init = function () {
+		tray.menu.items.forEach(function (i) {
+			if (i.tag === 'sync' || i.tag === 'pause') {
+				tray.menu.remove(i);
+				return;
+			}
+		});
+
+
 		$(document).ready(function () {
 			apiHelper.checkLogin({
 				// There was an error when attempting to connect to the server
@@ -20,7 +30,10 @@ if (typeof loadingView === 'undefined') {
 						stageName: data.stageName
 					};
 					initUserConfigs(function () {
-						loadTemplate('welcome');
+						if (loadingView.firstLogin)
+							loadTemplate('welcome');
+						else
+							loadTemplate('syncing');
 					});
 				},
 				// User is not logged in
@@ -37,7 +50,7 @@ if (typeof loadingView === 'undefined') {
 					} else {
 						// Open the login page in a new window
 						loginWindow = gui.Window.open('http://www.wavestack.com/account/applogin', {
-							icon: 'img/icon.png',
+							icon: '../img/icon.png',
 							position: 'center',
 							toolbar: false,
 							width: 500,
@@ -57,6 +70,8 @@ if (typeof loadingView === 'undefined') {
 								jar.setCookie(cookie, apiHelper.domain);
 								request = request.defaults({ jar: jar });
 								loginWindow.close();
+							} else {
+								loadingView.firstLogin = true;
 							}
 						});
 						

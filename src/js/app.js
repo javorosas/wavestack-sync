@@ -28,7 +28,7 @@ function initUI () {
 	var gui = require("nw.gui");
 
 	win = gui.Window.get();
-	var tray = new gui.Tray({
+	tray = new gui.Tray({
 			icon: 'img/icon.png',
 			tooltip: 'Wavestack ' + gui.App.manifest.version
 		});
