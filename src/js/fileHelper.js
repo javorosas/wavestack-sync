@@ -26,11 +26,15 @@ fileHelper.getLocalFiles = function(callback) {
 				var stat = fs.statSync(files[i]);
 				if (stat.isFile()) {
 					var modified = stat.mtime.toDateString() !== 'Invalid Date' ? stat.mtime : stat.ctime;
-					modified = stat.birthtime > modified ? stat.birthtime : modified;
+					var created = stat.birthtime < stat.ctime ? stat.birthtime : stat.ctime;
+					//modified = stat.ctime > modified ? stat.ctime : modified;
+					modified.setMilliseconds(0);
+					created.setMilliseconds(0);
 					var relative = files[i].slice(self.wavestackFolder.length);
 					cloudFiles.push({
 						RelativePath: relative,
-						ModifiedUtc: modified.toISOString()
+						ModifiedUtc: modified.toISOString(),
+						CreatedUtc: created.toISOString()
 					});
 				}
 			}

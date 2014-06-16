@@ -79,9 +79,18 @@ if (!this.syncHelper) {
 
 	syncHelper.getLastSync = function (callback) {
 		getLastSyncLocal(function (lastSyncLocal) {
+			var localDate = new Date(lastSyncLocal);
+            localDate.setMilliseconds(0);
+            lastSyncLocal = localDate.toISOString();
 			request.get({ url: apiHelper.routes.lastSync, json: true, callback: function (err, response, body) {
                 if (!err && response.statusCode === 200) {
                     var lastSyncRemote = body.date;
+                    
+                    // Truncate millis
+                    var remoteDate = new Date(lastSyncRemote);
+                    remoteDate.setMilliseconds(0);
+                    lastSyncRemote = remoteDate.toISOString();
+
                     callback(err, lastSyncLocal, lastSyncRemote);
                 } else {
                 	callback(err || body.message);
