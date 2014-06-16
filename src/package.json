@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "nedb": "~0.10.5",
-    "chokidar": "~0.8.2",
     "gaze": "~0.6.4",
     "fs-extra": "~0.9.1",
     "request": "~2.36.0",
