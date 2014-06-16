@@ -30,8 +30,7 @@ function initUI () {
 	win = gui.Window.get();
 	win.isVisible = false;
 	tray = new gui.Tray({
-		icon: 'img/icon.png',
-		tooltip: 'Wavestack ' + gui.App.manifest.version
+		icon: 'img/icon_16x16.png'
 	});
 
 	win.on('minimize', function () {
