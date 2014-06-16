@@ -3,10 +3,11 @@ module.exports = function (grunt) {
 		nodewebkit: {
 			options: {
 			    build_dir: './webkitbuilds', // Where the build version of my node-webkit app is saved
-			    mac: true, // We want to build it for mac
-			    win: true, // We want to build it for win
-			    linux32: true, // We don't need linux32
-			    linux64: true // We don't need linux64
+			    mac: true,
+			    win: true,
+			    linux32: true,
+			    linux64: true,
+			    mac_icns: './src/img/icon.icns'
 			},
 			src: ['./src/**/*'] // Your node-webkit app
 		},
