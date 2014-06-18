@@ -10,7 +10,6 @@ if (typeof manualSyncer === 'undefined') {
             var self = this;
             return function (remoteFile) {
                 var remoteHasNewerDateThanLocalSync = (new Date(remoteFile.ModifiedUtc)).getTime() > (new Date(self.lastSyncLocal)).getTime();
-                var local;
                 var remoteFileNotExistLocally = !localFiles.some(function (localFile) {
                     var result = localFile.RelativePath === remoteFile.RelativePath;
                     return result;
@@ -30,13 +29,6 @@ if (typeof manualSyncer === 'undefined') {
                 });
                 var localHasNewerDateThanRemoteSync = (new Date(localFile.CreatedUtc)).getTime() > (new Date(self.lastSyncRemote)).getTime();
                 var passed = localFileNotExistRemotely && localHasNewerDateThanRemoteSync;
-                if (passed) alert(JSON.stringify({
-                    filter: 'Create remote',
-                    condition: "Local file does not exist remotely AND local file has a newer creation date than remote's LastSync.",
-                    task: 'Download',
-                    localFile: localFile,
-                    remoteFile: remote
-                }));
                 return passed;
             };
         },
@@ -197,6 +189,14 @@ if (typeof manualSyncer === 'undefined') {
                         callback(err);
                     }
                     else {
+                        // model = {
+                        //     localFiles: localFiles,
+                        //     remoteFiles: remoteFiles,
+                        //     localSync: lastSyncLocal,
+                        //     remoteSync: lastSyncRemote
+                        // };
+                        // loadTemplate('log');
+
                         // Get their tasks
                         var syncTasks = self.getCrudTasks(localFiles, remoteFiles);
                         callback(err, syncTasks);

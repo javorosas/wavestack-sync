@@ -35,7 +35,7 @@ fileHelper.getLocalFiles = function(callback) {
 					// If Windows, convert all paths to POSIX style.
 					var platform = require('os').platform();
 					if (/^win/.test(platform)) {
-						relative.replace(/\\/g, '/');
+						relative = relative.replace(/\\/g, '/');
 					}
 					
 					var cloudFile = {
