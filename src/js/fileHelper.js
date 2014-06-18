@@ -31,11 +31,19 @@ fileHelper.getLocalFiles = function(callback) {
 					modified.setMilliseconds(0);
 					created.setMilliseconds(0);
 					var relative = files[i].slice(self.wavestackFolder.length);
-					cloudFiles.push({
+
+					// If Windows, convert all paths to POSIX style.
+					var platform = require('os').platform();
+					if (/^win/.test(platform)) {
+						relative.replace(/\\/g, '/');
+					}
+					
+					var cloudFile = {
 						RelativePath: relative,
 						ModifiedUtc: modified.toISOString(),
 						CreatedUtc: created.toISOString()
-					});
+					};
+					cloudFiles.push(cloudFile);
 				}
 			}
 		}

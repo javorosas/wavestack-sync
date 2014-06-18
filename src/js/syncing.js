@@ -24,7 +24,7 @@ if (typeof syncingView === 'undefined') {
 			}
 		});
 		item.tag = 'pause';
-		tray.menu.insert(item, 1);
+		tray.menu.insert(item, 2);
 
 		$(document).ready(function () {
 			syncHelper.startSyncing(function (err, status, percentage, task) {

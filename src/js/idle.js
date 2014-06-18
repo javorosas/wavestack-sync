@@ -21,7 +21,7 @@ if (typeof idleView === 'undefined') {
 			}
 		});
 		item.tag = 'sync';
-		tray.menu.insert(item, 1);
+		tray.menu.insert(item, 2);
 
 		$(document).ready(function () {
 			$resume = $('button.resume');

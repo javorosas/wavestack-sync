@@ -48,7 +48,7 @@ function initUI () {
 		win.show();
 		win.focus();
 		win.isVisible = true;
-		tray.menu.items[tray.menu.items.length - 2].label = 'Hide';
+		tray.menu.items[1].label = 'Hide';
 	}
 
 	tray.on('click', function () {
@@ -57,7 +57,7 @@ function initUI () {
 
 	win.on('close', function () {
 		win.isVisible = false;
-		tray.menu.items[tray.menu.items.length - 2].label = 'Show';
+		tray.menu.items[1].label = 'Show';
 		if (!exit) {
 			this.hide();
 			return false;
@@ -70,21 +70,8 @@ function initUI () {
 	var menu = new gui.Menu();
 	menu.append(
 		new gui.MenuItem({
-			label: 'Exit',
-			click: function () {
-				gui.App.closeAllWindows();
-				exit = true;
-				//gui.App.quit();
-			}
-		})
-	);
-	menu.append(
-		new gui.MenuItem({
-			label: 'Go to my Wavestack',
-			click: function () {
-				var gui = require('nw.gui');
-				gui.Shell.openExternal('https://www.wavestack.com/' + currentUser.username);
-			}
+			label: 'Wavestack sync ' + gui.App.manifest.version,
+			enabled: false
 		})
 	);
 	menu.append(
@@ -100,8 +87,29 @@ function initUI () {
 	);
 	menu.append(
 		new gui.MenuItem({
-			label: 'Wavestack sync ' + gui.App.manifest.version,
-			enabled: false
+			label: 'Open Wavestack folder',
+			click: function () {
+				gui.Shell.openItem(fileHelper.wavestackFolder);
+			}
+		})
+	);
+	menu.append(
+		new gui.MenuItem({
+			label: 'Go to my dashboard',
+			click: function () {
+				var gui = require('nw.gui');
+				gui.Shell.openExternal('https://www.wavestack.com/' + currentUser.username);
+			}
+		})
+	);
+	menu.append(
+		new gui.MenuItem({
+			label: 'Exit',
+			click: function () {
+				gui.App.closeAllWindows();
+				exit = true;
+				//gui.App.quit();
+			}
 		})
 	);
 

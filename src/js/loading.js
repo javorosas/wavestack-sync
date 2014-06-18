@@ -11,7 +11,6 @@ if (typeof loadingView === 'undefined') {
 			}
 		});
 
-
 		$(document).ready(function () {
 			apiHelper.checkLogin({
 				// There was an error when attempting to connect to the server

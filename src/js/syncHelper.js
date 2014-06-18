@@ -74,7 +74,7 @@ if (!this.syncHelper) {
 				}
 			});
 		});
-		autoSyncer.startWatching();
+		//autoSyncer.startWatching();
 	};
 
 	syncHelper.getLastSync = function (callback) {

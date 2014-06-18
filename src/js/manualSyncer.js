@@ -1,7 +1,7 @@
 if (typeof manualSyncer === 'undefined') {
     // Singleton
     manualSyncer = {
-        lastSyncRemmote: '',
+        lastSyncRemote: '',
         lastSyncLocal: '',
 
         // FILTERS
@@ -10,10 +10,13 @@ if (typeof manualSyncer === 'undefined') {
             var self = this;
             return function (remoteFile) {
                 var remoteHasNewerDateThanLocalSync = (new Date(remoteFile.ModifiedUtc)).getTime() > (new Date(self.lastSyncLocal)).getTime();
+                var local;
                 var remoteFileNotExistLocally = !localFiles.some(function (localFile) {
-                    return (localFile.RelativePath === remoteFile.RelativePath);
+                    var result = localFile.RelativePath === remoteFile.RelativePath;
+                    return result;
                 });
-                return remoteFileNotExistLocally && remoteHasNewerDateThanLocalSync;
+                var passed = remoteFileNotExistLocally && remoteHasNewerDateThanLocalSync;
+                return passed;
             };
         },
 
@@ -22,10 +25,19 @@ if (typeof manualSyncer === 'undefined') {
             var self = this;
             return function (localFile) {
                 var localFileNotExistRemotely = !remoteFiles.some(function (remoteFile) {
-                    return (remoteFile.RelativePath === localFile.RelativePath);
+                    var result = remoteFile.RelativePath === localFile.RelativePath;
+                    return result;
                 });
                 var localHasNewerDateThanRemoteSync = (new Date(localFile.CreatedUtc)).getTime() > (new Date(self.lastSyncRemote)).getTime();
-                return localFileNotExistRemotely && localHasNewerDateThanRemoteSync;
+                var passed = localFileNotExistRemotely && localHasNewerDateThanRemoteSync;
+                if (passed) alert(JSON.stringify({
+                    filter: 'Create remote',
+                    condition: "Local file does not exist remotely AND local file has a newer creation date than remote's LastSync.",
+                    task: 'Download',
+                    localFile: localFile,
+                    remoteFile: remote
+                }));
+                return passed;
             };
         },
 
@@ -36,9 +48,9 @@ if (typeof manualSyncer === 'undefined') {
                 var condition = localFiles.some(function (localFile) {
                     var localAndRemoteFileExist = localFile.RelativePath === remoteFile.RelativePath;
                     var remoteFileIsNewerThanLocal = (new Date(remoteFile.ModifiedUtc)).getTime() > (new Date(localFile.ModifiedUtc)).getTime();
-                    return localAndRemoteFileExist && remoteFileIsNewerThanLocal;
+                    var result = localAndRemoteFileExist && remoteFileIsNewerThanLocal;
+                    return result;
                 });
-                
                 return condition;
             };
         },
@@ -50,7 +62,8 @@ if (typeof manualSyncer === 'undefined') {
                 var condition = remoteFiles.some(function (remoteFile) {
                     var localAndRemoteFileExist = localFile.RelativePath === remoteFile.RelativePath;
                     var localFileIsNewerThanRemote = (new Date(localFile.ModifiedUtc)).getTime() > (new Date(remoteFile.ModifiedUtc)).getTime();
-                    return localAndRemoteFileExist && localFileIsNewerThanRemote;
+                    var result = localAndRemoteFileExist && localFileIsNewerThanRemote;
+                    return result;
                 });
                 return condition;
             };
