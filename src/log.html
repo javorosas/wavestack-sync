@@ -1,0 +1,33 @@
+<!--
+	## What's this?
+	This is an html for debugging purposes. I will remove it in the future, when I'm sure I won't need it anymore.
+	Basically, it logs all the local and remote files into an html template.
+
+	## How to use it?
+	Assign the data you want to log to a global `model` variable. (i.e.: `model = { key: value }`)
+	That model will be used in the script below to show its contents on this view.
+-->
+
+<div id="log" style="overflow: auto;">
+	<h3>local sync</h3>
+	<span class="local-sync"></span>
+	<h3>local</h3>
+	<ul class="local"></ul>
+	<h3>remote sync</h3>
+	<span class="remote-sync"></span>
+	<h3>remote</h3>
+	<ul class="remote"></ul>
+</div>
+<script>
+	$(document).ready(function() {
+		$('#log .local-sync').text(model.localSync);
+		$('#log .remote-sync').text(model.remoteSync);
+		model.localFiles.forEach(function (item, index) {
+			$('#log ul.local').append('<li>' + JSON.stringify(item) + '</li>');
+		});
+		model.remoteFiles.forEach(function (item, index) {
+			$('#log ul.remote').append('<li>' + JSON.stringify(item) + '</li>');
+		});
+		
+	});
+</script>
