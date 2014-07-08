@@ -41,6 +41,11 @@ if (typeof idleView === 'undefined') {
 				$('.last-sync').hide();
 			}
 			$resume.on('click', idleView.resume);
+			$('.dashboard.btn').on('click', function () {
+				var gui = require('nw.gui');
+				gui.Shell.openExternal('https://www.wavestack.com/' + currentUser.username);
+				mixpanel.track('Go to dashboard from app');
+			});
 			$('.disconnect').on('click', function () {
 				apiHelper.logout(function (err, body) {
 					if (!err) {

@@ -61,7 +61,7 @@ if (typeof manualSyncer === 'undefined') {
             };
         },
 
-        /// Condition: Local file does not exist remotely AND remote's lastSync is newer than local file's modified date AND local's lastSync
+        /// Condition: Local file does not exist remotely AND remote's lastSync is newer than local file's creation date AND local's lastSync
         ///            is newer than local file's creation time.
         conditionToDeleteLocal: function (remoteFiles) {
             var self = this;
@@ -195,6 +195,7 @@ if (typeof manualSyncer === 'undefined') {
                         //     localSync: lastSyncLocal,
                         //     remoteSync: lastSyncRemote
                         // };
+                        // win.setResizable(true);
                         // loadTemplate('log');
 
                         // Get their tasks

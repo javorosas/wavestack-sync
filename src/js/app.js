@@ -1,14 +1,27 @@
-// Make request object global
+// Make request object global ==================================================
 request = require('request');
-// Set default to store cookies on further calls
+// Set default to store cookies on further calls ===============================
 request = request.defaults({ jar: true });
 
-// Add endsWith function to string
+// Add endsWith function to string =============================================
 if (typeof String.prototype.endsWith !== 'function') {
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
 }
+
+// Setup platform ==============================================================
+isWindows = false; isMac = false; isLinux = false;
+var platform = require('os').platform();
+if (/^win/.test(platform)) {
+	isWindows = true;
+} else if (/^linux/.test(platform)) {
+	isLinux = true;
+} else {
+	isMac = true;
+}
+
+// Public functions ============================================================
 
 function loadTemplate(file) {
 	// Support template name convention
@@ -49,7 +62,7 @@ function initUI () {
 		win.focus();
 		win.isVisible = true;
 		tray.menu.items[1].label = 'Hide';
-	}
+	};
 
 	tray.on('click', function () {
 		win.show2();

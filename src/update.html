@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="fonts/Ubuntu/ubuntu.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/wavestack.theme.css">
+	<title>Update available</title>
+	<style>
+		html, body {
+			font-family: 'Ubuntu';
+		}
+
+		#main { padding: 20px; }
+
+		#main .button-container {
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			left: 0;
+			text-align: right;
+		}
+
+		#main button {
+			margin-left: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<h2>Update available</h2>
+		There's a new version of Wavestack Sync available.
+		<div class="button-container">
+			<button class="btn btn-default not">Not now</button>
+			<button class="btn btn-primary update">Update now</button>
+		</div>
+	</div>
+	<script src="lib/jquery-2.1.1.min.js"></script>
+	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/jquery.truncate.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('button.update').click(function () {
+				var gui = require('nw.gui');
+				gui.Shell.openExternal('https://www.wavestack.com/app');
+			});
+			$('button.not').click(function () {
+				window.close();
+			});
+		});
+	</script>
+</body>
+</html>

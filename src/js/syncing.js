@@ -29,7 +29,7 @@ if (typeof syncingView === 'undefined') {
 		$(document).ready(function () {
 			syncHelper.startSyncing(function (err, status, percentage, task) {
 				if (err) {
-
+					alert(err);
 				} else if (status === syncHelper.statusCode.completed) {
 					$('#main .log').append('<div>Sync completed</div>');
 					$('#main .progress-bar').css('width', '100%');

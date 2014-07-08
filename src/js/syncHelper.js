@@ -58,7 +58,7 @@ if (!this.syncHelper) {
 						var percentage = (self.pendingTasks.length + 1) / total;
 						percentage = percentage < 1 ? 1 - percentage : 0;
 						if (status === self.statusCode.completed) {
-							self.updateLastSync(lastSyncLocal, lastSyncRemote, function (err) {
+							self.updateLastSync(lastSyncLocal, lastSyncRemote, total, function (err) {
 								if (!err) {
 									callback(error, status, percentage, task);
 								} else {
@@ -103,14 +103,17 @@ if (!this.syncHelper) {
 		this.pauseRequested = true;
 	};
 
-	syncHelper.updateLastSync = function (lastSyncLocal, lastSyncRemote, callback) {
+	syncHelper.updateLastSync = function (lastSyncLocal, lastSyncRemote, filesChanged, callback) {
 		var last = null;
-		if (this.somethingChanged)
+		if (this.somethingChanged) {
+			mixpanel.track('Synchronization', { files: filesChanged });
 			last = (new Date()).toISOString();
-		else
+		} else {
 			last = (new Date(lastSyncLocal)).getTime() > (new Date(lastSyncRemote)).getTime() ? lastSyncLocal : lastSyncRemote;
+		}
+		// Set both local and remote sync dates to the same date
 		setLastSyncLocal(last, function () {
-			request.post({ url: apiHelper.routes.lastSync + "lastSyncUtc=" + encodeURIComponent(last), json: true, callback: function (err, response, body) {
+			request.post({ url: apiHelper.routes.lastSync + "?lastSyncUtc=" + encodeURIComponent(last), json: true, callback: function (err, response, body) {
                 if (!err && response.statusCode === 200) {
                     callback();
                 } else {

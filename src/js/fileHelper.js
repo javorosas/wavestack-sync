@@ -26,8 +26,13 @@ fileHelper.getLocalFiles = function(callback) {
 				var stat = fs.statSync(files[i]);
 				if (stat.isFile()) {
 					var modified = stat.mtime.toDateString() !== 'Invalid Date' ? stat.mtime : stat.ctime;
-					var created = stat.birthtime < stat.ctime ? stat.birthtime : stat.ctime;
-					//modified = stat.ctime > modified ? stat.ctime : modified;
+					
+					var created;
+					if (isMac)
+						created = stat.ctime;
+					else
+						created = stat.birthtime ? stat.birthtime : stat.ctime;
+
 					modified.setMilliseconds(0);
 					created.setMilliseconds(0);
 					var relative = files[i].slice(self.wavestackFolder.length);

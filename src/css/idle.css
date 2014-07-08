@@ -24,6 +24,21 @@
 	margin-bottom: 20px;
 }
 
+#main button.resume {
+	position: relative;
+	padding-right: 40px;
+}
+
+#main button.resume i {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	border-left: 1px solid #77D477;
+	line-height: 32px;
+	width: 30px;
+}
+
 #main .panel {
 	overflow: hidden;
 	padding: 10px;

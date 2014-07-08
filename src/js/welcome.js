@@ -7,11 +7,10 @@ if (typeof welcomeView === 'undefined') {
 			$('button.next').click(function () {
 				loadTemplate('syncing');
 			});
-			var platform = require('os').platform();
 			var $folder = $('div.ws-folder');
-			if (/^win/.test(platform)) {
+			if (isWindows) {
 				$folder.css('background-image', 'url(img/folder-win.jpg)');
-			} else if (/^linux/.test(platform)) {
+			} else if (isLinux) {
 				$folder.css('background-image', 'url(img/folder-linux.jpg)');
 			} else {
 				$folder.css('background-image', 'url(img/folder-osx.jpg)');
