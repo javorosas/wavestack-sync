@@ -1,12 +1,13 @@
-fileHelper = {
-	wavestackFolder: (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + "/Wavestack/"
-};
-fileHelper.createWavestackFolder = function () {
-	var fs = require('fs');
-	fs.mkdir(this.wavestackFolder, function (err) {
-	});
-};
+var wavestackFolder = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + "/Wavestack/";
 
+angular.module('FileService', [])
+	.factory('File', function () {
+		return {
+			wavestackFolder: wavestackFolder,
+			getLocalFiles: getLocalFiles,
+			createWavestackFolder: createWavestackFolder
+		}
+	});
 /*
 	callback = function (err, cloudFiles)
 	A CloudFile JSON object has the following structure:
@@ -15,10 +16,18 @@ fileHelper.createWavestackFolder = function () {
 		ModifiedUtc: "1990-01-01T14:55:58.201Z"
 	}
 */
-fileHelper.getLocalFiles = function(callback) {
+
+function createWavestackFolder(callback) {
+	var fs = require('fs');
+	fs.mkdir(wavestackFolder, function (err) {
+		callback(err);
+	});
+};
+
+function getLocalFiles(callback) {
 	var self = this;
 	var recursive = require('recursive-readdir');
-	recursive(this.wavestackFolder, function (err, files) {
+	recursive(wavestackFolder, function (err, files) {
 		var cloudFiles = [];
 		if (!err) {
 			var fs = require('fs');
@@ -35,7 +44,7 @@ fileHelper.getLocalFiles = function(callback) {
 
 					modified.setMilliseconds(0);
 					created.setMilliseconds(0);
-					var relative = files[i].slice(self.wavestackFolder.length);
+					var relative = files[i].slice(wavestackFolder.length);
 
 					// If Windows, convert all paths to POSIX style.
 					var platform = require('os').platform();

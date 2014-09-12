@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="css/logo.css" />
+
+<div class="logo"></div>
+<div ng-hide="broken" class="loading-container">
+	<div class="loading"></div>
+	<h2>Loading</h2>
+</div>
+
+<div ng-show="broken" class="broken-container">
+	<div class="broken"></div>
+	<h2>Can't connect</h2>
+	<h4>Please check your internet connection</h4>
+	<button ng-click="checkLogin()" class="retry btn btn-primary">Retry</button>
+</div>

@@ -1,8 +1,8 @@
 .loading-container {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
-.loading-container h1 {
+.loading-container h2 {
     text-align: center;
 }
 
@@ -37,4 +37,18 @@
         border-right-color: #009ee2;
         border-bottom-color: #009ee2;
     }
+}
+
+.broken-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.broken {
+    height: 100px;
+    background-repeat: no-repeat;
+    background-image: url(../img/broken.svg);
+    background-size: contain;
+    background-position: center;
+    margin: 10px auto;
 }

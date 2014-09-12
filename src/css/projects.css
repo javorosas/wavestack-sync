@@ -1,0 +1,94 @@
+html, body {
+	background-color: #f0f0f0;
+}
+
+#top-bar {
+	padding: 4px 6px;
+	background-color: #d8d8d8;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+	z-index: 99;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+}
+
+#top-bar button {
+	height: 28px;
+	width: 28px;
+	line-height: 28px;
+	border-radius: 100px;
+	background-color: #009ee2;
+	border: 0;
+	padding: 0;
+	font-size: 16px;
+	outline: none;
+}
+
+#top-bar button:hover {
+	background-color: #10aef2;
+}
+
+#top-bar button:not(.pull-right) {
+	margin-right: 5px;
+}
+
+.projects {
+	list-style: none;
+	padding: 0;
+	overflow-y: auto;
+	position: absolute;
+	top: 37px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0;
+	z-index: 0;
+}
+
+.projects li {
+	background-color: #fff;
+	min-height: 60px;
+	box-shadow: 0 2px 3px rgba(10,10,10,0.2);
+	margin: 6px;
+	position: relative;
+}
+
+.projects li .info {
+	padding: 10px;
+	cursor: pointer;
+}
+
+.projects li .info span {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.projects li .info span.title {
+	font-weight: 200;
+	font-size: 16px;
+}
+
+.projects li .info span.status {
+	font-size: 12px;
+	color: #666;
+}
+
+.projects li .action {
+	float: right;
+	width: 60px;
+	text-align: center;
+}
+
+.projects li .loading {
+	width: 30px;
+	height: 30px;
+	margin: 15px;
+	border: 3px solid #009ee2;
+	border-top: 3px solid rgba(0,0,0,0);
+	border-left: 3px solid rgba(0,0,0,0);
+	animation: loading 0.8s infinite linear;
+	-webkit-animation: loading 0.8s infinite linear;
+}

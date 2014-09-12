@@ -6,8 +6,8 @@
     "title": "Wavestack",
     "icon": "img/icon.png",
     "toolbar": false,
-    "width": 500,
-    "height": 600,
+    "width": 390,
+    "height": 365,
     "position": "center",
     "resizable": false
   },

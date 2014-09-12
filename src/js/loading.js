@@ -61,7 +61,7 @@ if (typeof loadingView === 'undefined') {
 						var splitted = result.split(';');
 						if (splitted[0] === 'OK') {
 							request = require('request');
-							jar = request.jar();
+							var jar = request.jar();
 							var cookie = request.cookie(splitted[1]);
 							jar.setCookie(cookie, apiHelper.domain);
 							request = request.defaults({ jar: jar });
@@ -85,12 +85,7 @@ if (typeof loadingView === 'undefined') {
 	};
 
 	loadingView.init = function () {
-		tray.menu.items.forEach(function (i) {
-			if (i.tag === 'sync' || i.tag === 'pause') {
-				tray.menu.remove(i);
-				return;
-			}
-		});
+		
 
 		$(document).ready(function () {
 			apiHelper.checkUpdate(function (err, needsUpdate, update, current) {

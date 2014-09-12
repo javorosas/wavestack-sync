@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="css/projects.css" />
+
+<section id="top-bar">
+	<button class="btn btn-primary pull-right" tooltip="More" tooltip-placement="left">
+		<i class="fa fa-caret-down"></i>
+	</button>
+	<button class="btn btn-primary" tooltip="New project" tooltip-placement="right">
+		<i class="fa fa-plus"></i>
+	</button>
+	<button class="btn btn-primary" tooltip="Open Wavestack folder" tooltip-placement="right">
+		<i class="fa fa-folder-open"></i>
+	</button>
+	<button class="btn btn-primary" tooltip="Refresh" tooltip-placement="right">
+		<i class="fa fa-refresh"></i>
+	</button>
+</section>
+<ul class="projects">
+	<li ng-repeat="project in projects">
+		<div class="action">
+			<button ng-show="project.status === 'sync'" class="sync">
+				<i class="fa fa-refresh"></i>
+			</button>
+			<div ng-show="project.status === 'ok'">
+				<i class="fa fa-check"></i>
+			</div>
+			<div ng-hide="project.status">
+				<div class="loading"></div>
+			</div>
+		</div>
+		<div class="picture" ng-click="openProject(project.url)"></div>
+		<div class="info">
+			<span class="title">{{ project.title }}</span>
+			<span class="status">{{ project.statusLabel }}</span>
+		</div>
+	</li>
+</ul>

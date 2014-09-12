@@ -1,7 +1,7 @@
 {
   "name": "wavestacksync",
-  "version": "0.9.1",
-  "description": "Sync your projects to the cloud of music creators",
+  "version": "0.10.0",
+  "description": "Sync your music projects to the Wavestack cloud",
   "keywords": [],
   "homepage": "https://github.com/javorosas/wavestacksync",
   "bugs": "https://github.com/javorosas/wavestacksync/issues",
